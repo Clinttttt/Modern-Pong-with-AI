@@ -1,0 +1,170 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+* {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(135deg, #0a0a1a, #1a1a2a);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #ffffff;
+    overflow: hidden;
+}
+
+#gameMenu {
+    position: absolute;
+    background: rgba(10, 10, 30, 0.98);
+    padding: 2.5rem 3rem;
+    border-radius: 25px;
+    box-shadow: 0 0 40px rgba(100, 150, 255, 0.2);
+    text-align: center;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transform: scale(0.95);
+    animation: menuEntrance 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes menuEntrance {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.menu-title {
+    font-size: 2.8rem;
+    margin-bottom: 1.5rem;
+    color: #6df;
+    text-shadow: 0 0 25px rgba(100, 200, 255, 0.4);
+    letter-spacing: 2px;
+    background: linear-gradient(45deg, #6df, #9ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.menu-button {
+    background: rgba(40, 60, 90, 0.9);
+    border: none;
+    padding: 1.2rem 2.8rem;
+    margin: 0.3rem 0;
+    color: white;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(100, 150, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.menu-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: 0.4s;
+}
+
+.menu-button:hover {
+    background: rgba(50, 80, 120, 0.95);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(100, 150, 255, 0.2);
+}
+
+.menu-button:hover::before {
+    left: 100%;
+}
+
+canvas {
+    background-color: #000318;
+    border: 2px solid rgba(100, 150, 255, 0.3);
+    border-radius: 18px;
+    box-shadow: 0 0 40px rgba(100, 150, 255, 0.1);
+}
+
+#scoreBoard {
+    position: absolute;
+    top: 40px;
+    width: 100%;
+    font-size: 2.8rem;
+    text-shadow: 0 0 15px rgba(100, 200, 255, 0.4);
+    display: flex;
+    justify-content: center;
+    gap: 6rem;
+    pointer-events: none;
+    font-weight: 600;
+    color: #9cf;
+}
+
+.powerup {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    animation: pulse 1.2s infinite;
+    filter: drop-shadow(0 0 8px currentColor);
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 0.9; }
+    50% { transform: scale(1.15); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.9; }
+}
+
+#countdown {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 6.5rem;
+    color: #9cf;
+    text-shadow: 0 0 25px rgba(100, 200, 255, 0.5);
+    z-index: 1000;
+    pointer-events: none;
+    font-weight: 700;
+    opacity: 0;
+}
+
+.countdown-show {
+    animation: countdownPop 1s ease-out;
+}
+
+@keyframes countdownPop {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(2); }
+    20% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+    80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+}
+
+#pauseOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 3, 24, 0.9);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    font-size: 3.5rem;
+    color: #9cf;
+    z-index: 999;
+    text-shadow: 0 0 25px rgba(100, 200, 255, 0.4);
+    backdrop-filter: blur(5px);
+}
+
+.neon-glow {
+    filter: drop-shadow(0 0 12px #6df);
+}
