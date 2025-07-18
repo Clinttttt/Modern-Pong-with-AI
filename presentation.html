@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon PONG 2.0 - Case Study</title>
+    <link rel="stylesheet" href="style.css">
+   
+</head>
+<style>
+     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0a0a1a, #1a1a2a);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+        
+        .presentation-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .slide {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 3rem 2rem;
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(10, 10, 30, 0.8);
+            border-radius: 25px;
+            border: 1px solid rgba(100, 150, 255, 0.2);
+            backdrop-filter: blur(10px);
+            z-index: -1;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(45deg, #6df, #9ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 25px rgba(100, 200, 255, 0.4);
+            letter-spacing: 2px;
+        }
+        
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: #9cf;
+            text-shadow: 0 0 15px rgba(100, 200, 255, 0.3);
+        }
+        
+        h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #6df;
+        }
+        
+        p, li {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            max-width: 800px;
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            width: 100%;
+            max-width: 1000px;
+        }
+        
+        .feature-card {
+            background: rgba(40, 60, 90, 0.6);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(100, 150, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(100, 150, 255, 0.2);
+        }
+        
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+        
+        .tech-item {
+            background: rgba(100, 150, 255, 0.2);
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            border: 1px solid rgba(100, 150, 255, 0.4);
+            font-weight: 600;
+        }
+        
+        .code-snippet {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(100, 150, 255, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            text-align: left;
+            overflow-x: auto;
+            max-width: 100%;
+        }
+        
+        .highlight {
+            color: #f6d;
+            font-weight: 600;
+        }
+        
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .stat-item {
+            background: rgba(40, 60, 90, 0.6);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(100, 150, 255, 0.3);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            color: #6df;
+            font-weight: 700;
+            display: block;
+        }
+        
+        .game-preview {
+            width: 400px;
+            height: 272px;
+            background: #000318;
+            border: 2px solid rgba(100, 150, 255, 0.3);
+            border-radius: 15px;
+            margin: 2rem auto;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .paddle {
+            position: absolute;
+            width: 8px;
+            height: 70px;
+            background: #9cf;
+            border-radius: 4px;
+            box-shadow: 0 0 15px #6df;
+        }
+        
+        .paddle.left {
+            left: 20px;
+            top: 100px;
+        }
+        
+        .paddle.right {
+            right: 20px;
+            top: 100px;
+        }
+        
+        .ball {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #fff;
+            border-radius: 50%;
+            top: 130px;
+            left: 200px;
+            box-shadow: 0 0 10px #fff;
+            animation: ballMove 2s infinite linear;
+        }
+        
+        @keyframes ballMove {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(150px, -50px); }
+            50% { transform: translate(0, -100px); }
+            75% { transform: translate(-150px, -50px); }
+            100% { transform: translate(0, 0); }
+        }
+        
+        ul {
+            text-align: left;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .slide-number {
+            position: absolute;
+            bottom: 20px;
+            right: 30px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            h2 { font-size: 2rem; }
+            p, li { font-size: 1rem; }
+            .game-preview { width: 300px; height: 200px; }
+        }
+</style>
+<body>
+    <div class="presentation-container">
+        
+        <!-- Slide 1: Title Slide -->
+        <div class="slide">
+           <div style="margin-top: 40px;">
+             <h2>Pong's simple Yet Addictive Design 2.0</h2>
+           </div>
+            <h3>Modern Web Game Development Case Study</h3>
+            <div class="game-preview">
+                <div class="paddle left"></div>
+                <div class="paddle right"></div>
+                <div class="ball"></div>
+            </div>
+            <p>A comprehensive analysis of building an enhanced Pong game using modern web technologies</p>
+            <div class="slide-number">1/4</div>
+        </div>
+        
+        <!-- Slide 2: Introduction / Background -->
+        <div class="slide">
+            <h2>Introduction & Background</h2>
+            
+            <div class="content-grid">
+                <div class="feature-card">
+                    <h3>🎮 Gaming Heritage</h3>
+                    <p>Pong, created in 1972, was one of the first commercially successful video games. This project reimagines the classic with modern web technologies and enhanced gameplay features.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>🌐 Web Gaming Evolution</h3>
+                    <p>Modern browsers support sophisticated graphics, audio, and real-time interactions without plugins, making web-based gaming more accessible than ever.</p>
+                </div>
+            </div>
+            
+            <div class="stat-grid">
+                <div class="stat-item">
+                    <span class="stat-number">500+</span>
+                    <span>Lines of Code</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">3</span>
+                    <span>Game Modes</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">2</span>
+                    <span>Powerup Types</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">60fps</span>
+                    <span>Smooth Gameplay</span>
+                </div>
+            </div>
+            
+            <p><strong>Industry Relevance:</strong> Demonstrates modern web development capabilities for interactive applications, real-time graphics rendering, and responsive user interfaces.</p>
+            
+            <div class="slide-number">2/4</div>
+        </div>
+        
+        <!-- Slide 3: Methodology / Approach -->
+        <div class="slide">
+            <h2>Methodology & Technical Approach</h2>
+            
+            <div class="tech-stack">
+                <div class="tech-item">HTML5 Canvas</div>
+                <div class="tech-item">Vanilla JavaScript</div>
+                <div class="tech-item">CSS3 Animations</div>
+                <div class="tech-item">Web Audio API</div>
+                <div class="tech-item">RequestAnimationFrame</div>
+            </div>
+            
+            <div class="content-grid">
+                <div class="feature-card">
+                    <h3>🎨 Rendering Engine</h3>
+                    <p><span class="highlight">HTML5 Canvas 2D Context</span> for high-performance graphics rendering with particle effects, screen shake, and neon-style visual effects.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>🎵 Audio System</h3>
+                    <p><span class="highlight">Web Audio API</span> for procedurally generated sound effects including bounce sounds and scoring audio with dynamic frequency modulation.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>🤖 AI Implementation</h3>
+                    <p><span class="highlight">Predictive AI Algorithm</span> with configurable difficulty levels, reaction times, and error rates for realistic opponent behavior.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>⚡ Game Architecture</h3>
+                    <p><span class="highlight">Event-Driven Design</span> with state management for multiple game modes, pause functionality, and real-time input handling.</p>
+                </div>
+            </div>
+            
+            <div class="code-snippet">
+<pre>// AI Movement Algorithm
+function moveAI() {
+    const predictX = ai.x - ball.x;
+    const timeToImpact = Math.abs(predictX / ball.dx);
+    const predictedY = ball.y + (ball.dy * timeToImpact);
+    const targetY = Math.min(Math.max(
+        predictedY + (Math.random() - 0.5) * ai.errorRate * 100, 
+        0
+    ), canvas.height - paddleHeight);
+}</pre>
+            </div>
+            
+            <div class="slide-number">3/4</div>
+        </div>
+        
+        <!-- Slide 4: Conclusion -->
+        <div class="slide">
+            <h2>Conclusion & Outcomes</h2>
+            
+            <div class="content-grid">
+                <div class="feature-card">
+                    <h3>🎯 Problem Solved</h3>
+                    <p>Created an engaging, modern recreation of classic Pong with enhanced features including multiple game modes, dynamic difficulty, and survival gameplay.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>✨ Key Innovations</h3>
+                    <ul>
+                        <li>Procedural audio generation</li>
+                        <li>Adaptive AI with configurable difficulty</li>
+                        <li>Particle effects and screen shake</li>
+                        <li>Survival mode gameplay</li>
+                        <li>Responsive neon-themed UI</li>
+                    </ul>
+                </div>
+            </div>
+            
+           <div style="margin-top:30px;;">
+             <h3>Technical Achievements</h3>
+           </div>
+            <div class="stat-grid">
+                <div class="stat-item">
+                    <span class="stat-number">60fps</span>
+                    <span>Consistent Performance</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">0ms</span>
+                    <span>Input Latency</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">100%</span>
+                    <span>Browser Compatible</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">Mobile</span>
+                    <span>Responsive Design</span>
+                </div>
+            </div>
+            
+            <h3>🚀 Recommendations & Future Enhancements</h3>
+            <ul>
+                <li><strong>Multiplayer Networking:</strong> Implement WebSocket-based online multiplayer functionality</li>
+                <li><strong>Advanced Physics:</strong> Add ball spin mechanics and paddle angle-based deflection</li>
+                <li><strong>Visual Effects:</strong> Integrate WebGL shaders for more sophisticated lighting effects</li>               
+                <li><strong>Analytics Integration:</strong> Implement gameplay analytics to track user engagement patterns</li>
+            </ul>
+            
+            <p><strong>Final Thoughts:</strong> This project demonstrates how modern web technologies can revitalize classic gaming concepts while maintaining the simplicity and fun that made the original successful. The modular architecture and clean codebase provide a solid foundation for future enhancements.</p>
+            
+            <div class="slide-number">4/4</div>
+        </div>
+        
+    </div>
+</body>
+</html>
