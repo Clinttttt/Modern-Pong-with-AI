@@ -1,6 +1,6 @@
 # 🕹️ Neon Pong 2.0
 
-An enhanced web-based version of the classic Pong game — powered by HTML5 Canvas, JavaScript, and CSS animations
+An enhanced web-based version of the classic Pong game — powered by HTML5 Canvas, JavaScript, and CSS animations.
 
 ## 📊 Game Presentation
 
