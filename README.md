@@ -5,4 +5,4 @@ An enhanced web-based version of the classic Pong game — powered by HTML5 Canv
 ## 📊 Game Presentation
 
 Check out the full **project case study and technical breakdown** here:  
-👉 [View Presentation](https://clinttttt.github.io/Pong-s-simple-Yet-Addictive-Design-2.0/index.html)
+👉 [View Presentation](https://clinttttt.github.io/Modern-Pong-with-AI/)
